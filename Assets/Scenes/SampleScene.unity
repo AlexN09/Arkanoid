@@ -256,6 +256,7 @@ GameObject:
   - component: {fileID: 1799168765}
   - component: {fileID: 1799168766}
   - component: {fileID: 1799168767}
+  - component: {fileID: 1799168768}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -309,6 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c961c3d27a681419966939c93ec9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Object: {fileID: 0}
 --- !u!114 &1799168766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b853cfd0e20be418011acbe7083982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 6
+  size: 4
   platformPart: {fileID: 8666218431391594167, guid: 3a792a2151931804eb6662f1e38cf43d, type: 3}
   speed: 0.02
 --- !u!114 &1799168767
@@ -339,7 +341,21 @@ MonoBehaviour:
   x: 1
   y: 1
   ballPrefab: {fileID: 8945877565645129733, guid: 0ab35f683cf9ff84a864673372cc4206, type: 3}
-  speed: 0.09
+  speed: 0.1
+--- !u!114 &1799168768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799168762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04515db777a60a84588c5607ecc1c5c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cords: []
+  cellPrefab: {fileID: 1925003160741281556, guid: e98cb6f94feb2fe4d95e9c09fc1ee970, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

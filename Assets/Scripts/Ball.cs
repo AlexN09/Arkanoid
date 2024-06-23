@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -11,43 +12,78 @@ public class Ball : MonoBehaviour
     public GameObject ballPrefab;
     private GameObject ball;
     public float speed;
-    private bool isMoving,isAttached;
+    private bool isMoving;
     private Directions direction;
-    string currentDirection;
-    private Field field;
-    private int lastCollisionCordX, lastCollisionCordY;
-    private void Start()
-    {
-        field = gameObject.GetComponent<Field>();
-    }
-    private enum Directions
+ 
+  
+    public enum Directions
     {
         DownRight,       
         DownLeft,
         UpRight,
         UpLeft,
-       
+        None,
     }
     public void Initialize(Vector2[,] field)
     {
-      direction = Directions.DownRight;    
+      direction = Directions.None;    
       ball = Instantiate(ballPrefab, field[y,x],Quaternion.identity);
    
     }
-    private  void ChangeDirection(int platformX,int platformY,GameObject[] platform, Vector2[,] field)
+    private void ChangeDirection(int platformX, int platformY, GameObject[] platform, Vector2[,] field, Block block)
     {
-        if (x == 26 && y == 10) 
+         List<Vector2> blocksCordinates = block.GetPositions();
+        List<GameObject[]> blocks = block.Getblocks();  
+        for (int i = 0; i < blocks.Count; i++)
+        {
+            GameObject[] currentArr = blocks[i];
+            Vector2 currentPosition = block.GetPositions()[i];
+            for (int j = 0; j < currentArr.Length; j++)
+            {
+                if (currentPosition.x == x && currentPosition.y == y - 1 || currentPosition.x + 1 == x && currentPosition.y == y - 1)
+                {
+                    if (direction == Directions.UpLeft)
+                    {
+                        direction = Directions.DownLeft;
+                    }
+                    else if (direction == Directions.UpRight)
+                    {
+                        direction = Directions.DownRight;
+                    }
+
+                        block.DestroyAt(i);
+                    return;
+                }
+            }
+        }
+
+
+        if (x == field.GetLength(1) - 1 && y == field.GetLength(0) - 2 && platformX+platform.Length-1 == field.GetLength(1) - 1) 
         {
             Debug.Log(true);
             direction = Directions.UpLeft;
             return; 
         }
+        else if (x == 0 && y == field.GetLength(0) - 2 && platformX == 0)
+        {
+            direction = Directions.UpRight;
+        }
+        else if (x == field.GetLength(1) - 1 && y == 0)
+        {
+            direction = Directions.DownLeft;
+        }
         else if (x == 0 && y == 0)
         {
             direction = Directions.DownRight;
+        }
+       
+       
+        else if (y == field.GetLength(0) - 1)
+        {
+            
+            direction = Directions.None;
             return;
         }
-      
       else  if (y == 0) 
         {
             if (direction == Directions.UpRight) 
@@ -109,16 +145,29 @@ public class Ball : MonoBehaviour
           
       
     }
-    public IEnumerator MoveBall(int platformX,int platformY,Vector2[,] field, GameObject[] platform)
+     public bool IsBallActive()
+     {
+        return direction != Directions.None;
+     }
+    public IEnumerator MoveBall(int platformX,int platformY,Vector2[,] field, GameObject[] platform, Block block)
     {
+        
 
-        if (y == 0)
+
+        if (direction == Directions.None)
         {
-
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                direction = Directions.UpLeft;
+            }
+            ball.transform.position = field[platformY - 1, platformX + platform.Length / 2];
+            x = platformX + 1; y = platformY;
+           
         }
-        if (isMoving) yield break;
+        if (isMoving || direction == Directions.None) yield break;
         if (/*x > 0 && x < field.GetLength(1) && y > 0 && y < field.GetLength(0)*/ true)
         {
+          
             isMoving = true;
             yield return new WaitForSeconds(speed);
             if (direction == Directions.DownRight)
@@ -138,10 +187,10 @@ public class Ball : MonoBehaviour
                 y--;x--;
             }
              ball.transform.position = field[y,x];
-            ChangeDirection(platformX, platformY, platform,field);
+            ChangeDirection(platformX, platformY, platform, field,block);
             isMoving = false;
         }
-       
+                
     }
    
     public int GetX() { return x; } 
