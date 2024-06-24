@@ -22,8 +22,15 @@ public class Game : MonoBehaviour
         field.Initialize();
         ball.Initialize(field.GetField());
         platform.Initialize(field.GetField(), field.GetWidth() / 2, field.GetHeight());
-        block.Init(2,2,field.GetField());
-    
+        block.Init();
+        //block.Init(20,2,field.GetField());
+        
+        for (int i = 0; i < 26; i+=2)
+        {
+            block.CreateBlock(i, 5, field.GetField());
+        }
+
+
     }
 
     void Update()

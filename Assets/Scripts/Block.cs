@@ -5,14 +5,26 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    public List<GameObject[]> blocks = new List<GameObject[]>();
-    public List<Vector2> cords = new List<Vector2>();
+    public List<GameObject[]> blocks;
+    public List<Vector2> cords;
     public GameObject cellPrefab;
-    public void Init(int x, int y, Vector2[,] field)
+    public void Init()
+    {
+        GameObject[] temp = new GameObject[2];
+        blocks = new List<GameObject[]>();
+         cords = new List<Vector2>();
+        //for (int i = 0; i < 2; i++)
+        //{
+        //    temp[i] = Instantiate(cellPrefab, field[y, x + i], Quaternion.identity);
+        //}
+        //cords.Add(new Vector2(x, y));
+        //blocks.Add(temp);
+    }
+    public void CreateBlock(int x, int y,Vector2[,] field)
     {
         GameObject[] temp = new GameObject[2];
 
-       
+
         for (int i = 0; i < 2; i++)
         {
             temp[i] = Instantiate(cellPrefab, field[y, x + i], Quaternion.identity);

@@ -45,14 +45,101 @@ public class Ball : MonoBehaviour
                     if (direction == Directions.UpLeft)
                     {
                         direction = Directions.DownLeft;
+                        block.DestroyAt(i);
+                        return;
                     }
                     else if (direction == Directions.UpRight)
                     {
                         direction = Directions.DownRight;
+                        block.DestroyAt(i);
+                        return;
                     }
 
+                      
+                }
+                else if (currentPosition.x + 2 == x && currentPosition.y == y)
+                {
+                    if (direction == Directions.DownLeft)
+                    {
+                        direction = Directions.DownRight;
                         block.DestroyAt(i);
-                    return;
+                        return;
+                    }
+                    else if (direction == Directions.UpLeft)
+                    {
+                        direction = Directions.UpRight  ;
+                        block.DestroyAt(i);
+                        return;
+                    }
+                   
+                }
+                else if (currentPosition.x - 1 == x && currentPosition.y == y)
+                {
+                    if (direction == Directions.DownRight)
+                    {
+                        direction = Directions.DownLeft;
+                        block.DestroyAt(i);
+                        return;
+                    }
+                    else if (direction == Directions.UpRight)
+                    {
+                        direction = Directions.UpLeft;
+                        block.DestroyAt(i);
+                        return;
+                    }
+                  
+                }
+                else if (currentPosition.x  == x && currentPosition.y - 1 == y || currentPosition.x + 1 == x && currentPosition.y - 1 == y)
+                {
+                    if (direction == Directions.DownRight)
+                    {
+                        direction = Directions.UpRight;
+                        block.DestroyAt(i);
+                        return;
+                    }
+                    else if (direction == Directions.DownLeft)
+                    {
+                        direction = Directions.UpLeft;
+                        block.DestroyAt(i);
+                        return;
+                    }
+                    
+                }
+                else if (currentPosition.x - 1 == x && currentPosition.y + 1 == y)
+                {
+                    if (direction == Directions.UpRight)
+                    {
+                        direction = Directions.DownLeft;
+                        block.DestroyAt(i);
+                        return;
+                    }
+                }
+                else if (currentPosition.x + 2 == x && currentPosition.y + 1 == y)
+                {
+                    if (direction == Directions.UpLeft)
+                    {
+                        direction = Directions.DownRight;
+                        block.DestroyAt(i);
+                        return;
+                    }
+                }
+                else if (currentPosition.x + 2 == x && currentPosition.y - 1 == y)
+                {
+                    if (direction == Directions.DownLeft)
+                    {
+                        direction = Directions.UpRight;
+                        block.DestroyAt(i);
+                        return;
+                    }
+                }
+                else if (currentPosition.x - 1 == x && currentPosition.y - 1 == y)
+                {
+                    if (direction == Directions.DownRight)
+                    {
+                        direction = Directions.UpLeft;
+                        block.DestroyAt(i);
+                        return;
+                    }
                 }
             }
         }

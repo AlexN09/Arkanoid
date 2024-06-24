@@ -281,7 +281,7 @@ MonoBehaviour:
   Width: 27
   Height: 12
   cellInterval: 1.1
-  pos: {x: -13.6, y: 6.545214}
+  pos: {x: -13.4, y: 6.545214}
   isInitialized: 0
 --- !u!4 &1799168764
 Transform:
