@@ -24,23 +24,31 @@ public class Game : MonoBehaviour
         platform.Initialize(field.GetField(), field.GetWidth() / 2, field.GetHeight());
         block.Init();
         //block.Init(20,2,field.GetField());
-        
-        for (int i = 0; i < 26; i+=2)
-        {
-            block.CreateBlock(i, 5, field.GetField());
-        }
+
+        //for (int j = 0; j < 6; j++)
+        //{
+        //    for (int i = 0; i < 25; i += 3)
+        //    {
+        //        block.CreateBlock(i, j, field.GetField());
+        //    }
+        //}
+
+       
 
 
     }
 
     void Update()
     {
-        StartCoroutine(ball.MoveBall(platform.GetX(), platform.GetY(), field.GetField(), platform.GetPlatform(),block));
+        //StartCoroutine(ball.MoveBall(platform.GetX(), platform.GetY(), field.GetField(), platform.GetPlatform(),block));
 
+        StartCoroutine(ball.MoveBall(platform.GetX(), platform.GetY(), field.GetField(), platform.GetPlatform(), block));
         if (Input.GetKeyDown(KeyCode.W))
         {
-            block.DestroyAt(0);
+            block.CreateBlock(10, 5, field.GetField());
+            block.CreateBlock(13, 5, field.GetField());
         }
+      
     }
 
   

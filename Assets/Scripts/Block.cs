@@ -10,7 +10,7 @@ public class Block : MonoBehaviour
     public GameObject cellPrefab;
     public void Init()
     {
-        GameObject[] temp = new GameObject[2];
+        //GameObject[] temp = new GameObject[3];
         blocks = new List<GameObject[]>();
          cords = new List<Vector2>();
         //for (int i = 0; i < 2; i++)
@@ -22,10 +22,10 @@ public class Block : MonoBehaviour
     }
     public void CreateBlock(int x, int y,Vector2[,] field)
     {
-        GameObject[] temp = new GameObject[2];
+        GameObject[] temp = new GameObject[3];
 
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
             temp[i] = Instantiate(cellPrefab, field[y, x + i], Quaternion.identity);
         }
@@ -42,7 +42,7 @@ public class Block : MonoBehaviour
             cords.RemoveAt(index);
         }
     
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
             Destroy(blocks[index][i]);
         }
