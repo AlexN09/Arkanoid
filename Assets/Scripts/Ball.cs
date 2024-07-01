@@ -7,6 +7,8 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEditorInternal;
+
 #if UNITY_EDITOR
 using System.Reflection;
 #endif
@@ -52,7 +54,7 @@ public class Ball : MonoBehaviour
         {
             direction = Directions.None;
         }
-        ClearUnityConsole();    
+    
         Debug.Log("Current Direction: " + direction);
         Debug.Log("Current start Direction: " + (testDirection == 1 ? "UpLeft" : "UpRight"));
 
@@ -83,27 +85,56 @@ public class Ball : MonoBehaviour
             for (int j = 0; j < 4; j++)
             {
                 Vector2 checkIfAngle = new Vector2(currentPos.x + 3, currentPos.y);
-                if (x == currentPos.x + j && y == currentPos.y + 1)
+                if ((x == currentPos.x + j && y == currentPos.y + 1) && (direction == Directions.UpLeft || direction == Directions.UpRight))
                 {
                     block.DestroyAt(i);
-                    direction = direction == Directions.UpRight ? Directions.DownRight : Directions.DownLeft; break;
+                    direction = direction == Directions.UpRight ? Directions.DownRight : Directions.DownLeft;
+                    break;
                 }
-          
-                else if (!blocksCordinates.Contains(checkIfAngle) && currentPos.x + 3 == x && y == currentPos.y + 1)
+                if ((x == currentPos.x + j && y == currentPos.y - 1) && (direction == Directions.DownLeft || direction == Directions.DownRight))
                 {
                     block.DestroyAt(i);
-                    direction = direction == Directions.UpLeft ? Directions.DownRight : direction; break;
+                    direction = direction == Directions.DownRight ? Directions.UpRight : Directions.UpLeft;
+                    break;
                 }
-                
 
+                else if (!blocksCordinates.Contains(checkIfAngle) && currentPos.x + 3 == x && y == currentPos.y + 1 && direction == Directions.UpLeft)
+                {
+                    block.DestroyAt(i);
+                    direction = Directions.DownRight; break;
+                }
+                else if (currentPos.x - 1 == x && currentPos.y + 1 == y && direction == Directions.UpRight)
+                {
+                    block.DestroyAt(i);
+                    direction = Directions.UpRight; break;
+                }
+                else if (currentPos.x - 1 == x && currentPos.y - 1 == y && direction == Directions.DownRight)
+                {
+                    block.DestroyAt(i);
+                    direction = Directions.UpLeft; break;
+                }
+                else if (!blocksCordinates.Contains(checkIfAngle) && currentPos.x + 3 == x && currentPos.y - 1 == y && direction == Directions.DownLeft)
+                {
+                    block.DestroyAt(i);
+                    direction = Directions.UpRight; break;
+                }
+                else if (currentPos.x - 1 == x && currentPos.y == y)
+                {
+                    block.DestroyAt(i);
+                    direction = direction == Directions.UpRight ? Directions.UpLeft : Directions.DownLeft; break;
+                }
+                else if (currentPos.x + 3 == x && currentPos.y == y)
+                {
+                    block.DestroyAt(i);
+                    direction = direction == Directions.UpLeft ? Directions.UpRight : Directions.DownRight; break;
+                }
             }
         }
 
-      
 
-        
-       
-         if (x == 0 && y == field.GetLength(0) - 2 && platformX == 0)
+
+
+        if (x == 0 && y == field.GetLength(0) - 2 && platformX == 0)
         {
             direction = Directions.UpRight;
             return;
@@ -161,16 +192,57 @@ public class Ball : MonoBehaviour
             return;
         }
 
-        // Проверка на столкновение с краем платформы
-        for (int i = 0; i < platform.Length; i++)
+        //// Проверка на столкновение с краем платформы
+        //for (int i = 0; i < platform.Length; i++)
+        //{
+        //    if (x == platformX + i && y == platformY - 1)
+        //    {
+        //        //if (x == field[field.GetLength(0) - 2, field.GetLength(1) - 1].x && y == field[field.GetLength(0) - 2, field.GetLength(1) - 1].y)
+        //        //{
+        //        //    Debug.Log(true);
+        //        //    direction = Directions.UpLeft;
+        //        //}
+        //        if (direction == Directions.DownRight)
+        //        {
+        //            direction = Directions.UpRight;
+        //        }
+        //        else if (direction == Directions.DownLeft)
+        //        {
+        //            direction = Directions.UpLeft;
+        //        }
+        //        return;
+        //    }
+        //}
+
+        //// Дополнительная проверка на столкновение с краем платформы
+        //if (x == platformX - 1 && y == platformY - 1)
+        //{
+        //    direction = direction == Directions.DownRight ? Directions.UpLeft : direction = direction;
+        //    //direction = Directions.UpRight;
+        //    return;
+        //}
+        //else if (x == platformX + platform.Length - 1 && y == platformY - 1)
+        //{
+        //    direction = Directions.UpLeft;
+        //    return;
+        //}
+        // тест 
+        if (y == platformY - 1 && x >= platformX && x < platformX + 4)
         {
-            if (x == platformX + i && y == platformY - 1)
+            if (direction == Directions.DownRight)
             {
-                //if (x == field[field.GetLength(0) - 2, field.GetLength(1) - 1].x && y == field[field.GetLength(0) - 2, field.GetLength(1) - 1].y)
-                //{
-                //    Debug.Log(true);
-                //    direction = Directions.UpLeft;
-                //}
+                direction = Directions.UpRight;
+            }
+            else if (direction == Directions.DownLeft)
+            {
+                direction = Directions.UpLeft;
+            }
+            return;
+        }
+        if (direction == Directions.DownRight || direction == Directions.DownLeft)
+        {
+            if (y - 1 == platformY - 1 && x + 1 >= platformX && x + 1 < platformX + 4)
+            {
                 if (direction == Directions.DownRight)
                 {
                     direction = Directions.UpRight;
@@ -182,20 +254,18 @@ public class Ball : MonoBehaviour
                 return;
             }
         }
-
-        // Дополнительная проверка на столкновение с краем платформы
-        if (x == platformX - 1 && y == platformY - 1)
+        if (y - 1 == platformY - 1 && x - 1 >= platformX && x - 1 < platformX + 4)
         {
-            direction = direction == Directions.DownRight ? Directions.UpLeft : direction = direction;
-            //direction = Directions.UpRight;
+            if (direction == Directions.DownRight)
+            {
+                direction = Directions.UpRight;
+            }
+            else if (direction == Directions.DownLeft)
+            {
+                direction = Directions.UpLeft;
+            }
             return;
         }
-        else if (x == platformX + platform.Length - 1 && y == platformY - 1)
-        {
-            direction = Directions.UpLeft;
-            return;
-        }
-
     }
     public bool IsBallActive()
      {

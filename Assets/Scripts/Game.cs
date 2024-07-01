@@ -25,15 +25,15 @@ public class Game : MonoBehaviour
         block.Init();
         //block.Init(20,2,field.GetField());
 
-        //for (int j = 0; j < 6; j++)
-        //{
-        //    for (int i = 0; i < 25; i += 3)
-        //    {
-        //        block.CreateBlock(i, j, field.GetField());
-        //    }
-        //}
+        for (int j = 0; j < 6; j++)
+        {
+            for (int i = 0; i < 25; i += 3)
+            {
+                block.CreateBlock(i, j, field.GetField());
+            }
+        }
 
-       
+
 
 
     }
@@ -48,7 +48,7 @@ public class Game : MonoBehaviour
             block.CreateBlock(10, 5, field.GetField());
             block.CreateBlock(13, 5, field.GetField());
         }
-      
+
     }
 
   

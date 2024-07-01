@@ -12,6 +12,7 @@ public class Platform : MonoBehaviour
     private int x, y;
     public int size;
     private GameObject[] platform;
+    private Vector2[] platformPartsCordinates;
     public GameObject platformPart;
     public float speed;
     private bool isMoving = false;
